@@ -1,0 +1,60 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Sync Upstream
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  sync:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+      - name: Sync Upstream
+        run: |
+          # git config --global user.name edgexyz
+          # git config --global user.email 32131214+edgexyz@users.noreply.github.com
+          # git pull --unshallow
+          # git remote add upstream https://github.com/ACL4SSR/ACL4SSR.git
+          # git fetch upstream
+          # git checkout master
+          # git merge --no-edit upstream/master
+          # git push origin master
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "username@users.noreply.github.com"
+          git pull --unshallow
+          git checkout master
+          # git remote set-url origin https://github.com/ACL4SSR/ACL4SSR.git
+          # git pull --force
+          # git remote set-url origin https://github.com/edgexyz/ACL4SSR.git
+          # git push --force
+          git remote add upstream https://github.com/ACL4SSR/ACL4SSR.git
+          git fetch upstream
+          git checkout master
+          git merge upstream/master
+          git push origin master
+          sleep 10
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/ProxyGFWlist.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/BanAD.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/BanEasyList.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/BanEasyListChina.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/BanProgramAD.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/LocalAreaNetwork.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/Ruleset/Developer.yaml > /dev/null 2>&1
+          wget -O - https://purge.jsdelivr.net/gh/edgexyz/ACL4SSR/Clash/Providers/ChinaIp.yaml > /dev/null 2>&1
+          
+          # git config --global user.name edgexyz
+          # git config --global user.email 32131214+edgexyz@users.noreply.github.com
+          # git pull --unshallow
+          # git remote add upstream https://github.com/ACL4SSR/ACL4SSR.git
+          # git fetch upstream
+          # git checkout origin/master
+          # git merge --no-edit upstream/master
+          # git push origin/master
